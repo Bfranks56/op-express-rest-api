@@ -2,12 +2,25 @@
   "name": "express-rest-api",
   "version": "1.0.0",
   "description": "A bare bones Node.js project for tutorial",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "node index.js"
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["nodejs", "tutorial"],
+  "keywords": [
+    "nodejs",
+    "tutorial"
+  ],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.0",
+    "@babel/node": "^7.28.0",
+    "nodemon": "^3.1.10"
+  }
 }
