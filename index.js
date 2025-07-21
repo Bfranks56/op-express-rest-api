@@ -8,6 +8,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use((req, res, next) => {
+    req.me = users[1];
+    next();
+});
 // app.get('/', (req, res) => {
 //     res.send('Hello, World!');
 // });
@@ -36,6 +40,10 @@ let messages = {
     }
 };
 
+app.get('/session', (req, res) => {
+    return res.send(users[req.me.id]);
+});
+
 app.get('/users', (req, res) => {
     return res.send(Object.values(users));
 });
@@ -61,6 +69,7 @@ app.post('/messages', (req, res) => {
     const message = {
         id,
         text: req.body.text,
+        userId: req.me.id,
     };
 
     messages[id] = message;
@@ -73,6 +82,17 @@ app.put('/users/:userId', (req, res) => {
 
 app.delete('/users/:userId', (req, res) => {
     return res.send(`Received a DELETE HTTP method on user/${req.params.userId} resource`);
+});
+
+app.delete('/messages/:messageId', (req, res) => {
+    const {
+        [req.params.messageId]: message,
+        ...otherMessages
+    } = messages;
+
+    messages = otherMessages;
+
+    return res.send(message);
 });
 
 app.listen(process.env.PORT, () => {
